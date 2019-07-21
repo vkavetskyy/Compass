@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Compass</string>
     <string name="app_author">Vladyslav Kavetskyy</string>
+    <string name="degree_symbol">°</string>
 </resources>

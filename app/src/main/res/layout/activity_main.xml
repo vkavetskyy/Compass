@@ -39,14 +39,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_Arrow"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/protractor" />
+        app:srcCompat="@drawable/protractor"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView_Azimuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:text=""
         android:textColor="@color/colorWhite"
@@ -92,12 +93,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#212121"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7915421190790130/7288254544"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"></com.google.android.gms.ads.AdView>
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

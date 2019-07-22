@@ -3,6 +3,7 @@ package com.vkavetskyy.compass;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView textView_Azimuth;
 
     private boolean sensorCheck1 = false;
-    private boolean sensorCheck2 = false;
     private final float[] mLastAccelerometer = new float[3];
     private final float[] mLastMagnetometer = new float[3];
     private boolean mLastAccelerometerSet = false;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAdView.loadAd(adRequest);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (mAzimuth <= 80 && mAzimuth > 10) Azimuth = "NE";
 
 
-        textView_Coordinates.setText(mAzimuth + "");
+        textView_Coordinates.setText(mAzimuth+"");
         textView_Azimuth.setText(Azimuth);
     }
 
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                 mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
                 sensorCheck1 = mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-                sensorCheck2 = mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+                boolean sensorCheck2 = mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
             }
         }
         else{

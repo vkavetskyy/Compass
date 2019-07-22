@@ -33,7 +33,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/textView_Azimuth"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,22 +47,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text=""
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/textView_Direction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_Protractor" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Protractor"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/degree_symbol"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
@@ -94,11 +94,12 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#212121"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-7915421190790130/7288254544"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintVertical_bias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

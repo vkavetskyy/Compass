@@ -2,7 +2,6 @@ package com.vkavetskyy.compass;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
@@ -10,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +50,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textView_Azimuth = findViewById(R.id.textView_Direction);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+        AdView mAdView = findViewById(R.id.adView);
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
+
+        if (!isTestDevice()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -126,9 +130,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void noSensorsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setMessage("Sorry, but your device is not supported :(")
+        alertDialog.setMessage(R.string.app_notSupported_alert)
                 .setCancelable(false)
-                .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.app_notSupported_close, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
@@ -146,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -158,5 +160,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
         start();
+    }
+
+    private boolean isTestDevice() {
+        String testLabSetting = Settings.System.getString(getContentResolver(), "firebase.test.lab");
+        return "true".equals(testLabSetting);
     }
 }

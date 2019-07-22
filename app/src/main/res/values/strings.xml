@@ -2,4 +2,7 @@
     <string name="app_name">Compass</string>
     <string name="app_author" translatable="false">Vladyslav Kavetskyy</string>
     <string name="degree_symbol" translatable="false">°</string>
+
+    <string name="app_notSupported_alert">Sorry!\nLooks like your device isn\'t supported, app requires sensors which your device is missing.</string>
+    <string name="app_notSupported_close">Close</string>
 </resources>

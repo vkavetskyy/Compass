@@ -21,7 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/arrow" />
+        app:srcCompat="@drawable/arrow"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageView_Protractor"
@@ -32,7 +33,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/textView_Coordinates"
+        app:layout_constraintBottom_toBottomOf="@id/textView_Azimuth"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +42,7 @@
         app:srcCompat="@drawable/protractor" />
 
     <TextView
-        android:id="@+id/textView_Coordinates"
+        android:id="@+id/textView_Azimuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,7 +51,7 @@
         android:text=""
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@id/textView_Azimuth"
+        app:layout_constraintBottom_toBottomOf="@id/textView_Direction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_Protractor" />
@@ -64,14 +65,14 @@
         android:text="@string/degree_symbol"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_Coordinates"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Azimuth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView_Coordinates"
-        app:layout_constraintTop_toTopOf="@+id/textView_Coordinates" />
+        app:layout_constraintStart_toEndOf="@+id/textView_Azimuth"
+        app:layout_constraintTop_toTopOf="@+id/textView_Azimuth" />
 
     <TextView
-        android:id="@+id/textView_Azimuth"
+        android:id="@+id/textView_Direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -83,21 +84,20 @@
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_Coordinates"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Azimuth"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#212121"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7915421190790130/7288254544"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
-    </com.google.android.gms.ads.AdView>
+        app:layout_constraintVertical_bias="1.0"></com.google.android.gms.ads.AdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

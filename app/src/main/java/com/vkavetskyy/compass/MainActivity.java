@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         imageView_Protractor = findViewById(R.id.imageView_Protractor);
-        textView_Coordinates = findViewById(R.id.textView_Coordinates);
-        textView_Azimuth = findViewById(R.id.textView_Azimuth);
+        textView_Coordinates = findViewById(R.id.textView_Azimuth);
+        textView_Azimuth = findViewById(R.id.textView_Direction);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -84,28 +84,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAzimuth = Math.round(mAzimuth);
         imageView_Protractor.setRotation(-mAzimuth);
 
-        String where = "NW";
+        String Azimuth = "N";
 
-        if (mAzimuth >= 350 || mAzimuth <= 10)
-            where = "N";
-        if (mAzimuth < 350 && mAzimuth > 280)
-            where = "NW";
-        if (mAzimuth <= 280 && mAzimuth > 260)
-            where = "W";
-        if (mAzimuth <= 260 && mAzimuth > 190)
-            where = "SW";
-        if (mAzimuth <= 190 && mAzimuth > 170)
-            where = "S";
-        if (mAzimuth <= 170 && mAzimuth > 100)
-            where = "SE";
-        if (mAzimuth <= 100 && mAzimuth > 80)
-            where = "E";
-        if (mAzimuth <= 80 && mAzimuth > 10)
-            where = "NE";
+        if (mAzimuth >= 350 || mAzimuth <= 10) Azimuth = "N";
+        if (mAzimuth < 350 && mAzimuth > 280) Azimuth = "NW";
+        if (mAzimuth <= 280 && mAzimuth > 260) Azimuth = "W";
+        if (mAzimuth <= 260 && mAzimuth > 190) Azimuth = "SW";
+        if (mAzimuth <= 190 && mAzimuth > 170) Azimuth = "S";
+        if (mAzimuth <= 170 && mAzimuth > 100) Azimuth = "SE";
+        if (mAzimuth <= 100 && mAzimuth > 80) Azimuth = "E";
+        if (mAzimuth <= 80 && mAzimuth > 10) Azimuth = "NE";
 
 
         textView_Coordinates.setText(mAzimuth + "");
-        textView_Azimuth.setText(where);
+        textView_Azimuth.setText(Azimuth);
     }
 
     @Override
@@ -133,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void noSensorsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setMessage("Your device doesn't support the Compass.")
+        alertDialog.setMessage("Sorry, but your device is not supported :(")
                 .setCancelable(false)
                 .setNegativeButton("Close",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -152,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             mSensorManager.unregisterListener(this, mMagnetometer);
         }
     }
+
+
 
     @Override
     protected void onPause() {

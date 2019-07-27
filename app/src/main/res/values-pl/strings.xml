@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kompas</string>
-    <string name="app_notSupported_alert">Przepraszamy!\n Wygląda na to że twoje urządzenie nie jest obsługiwane, aplikacja używa czujników które twoje urządzenie nie posiada.</string>
+    <string name="app_notSupported_alert">Przepraszamy!\nWygląda na to że twoje urządzenie nie jest obsługiwane, aplikacja używa czujników które twoje urządzenie nie posiada.</string>
     <string name="app_notSupported_close">Zamknij</string>
 </resources>

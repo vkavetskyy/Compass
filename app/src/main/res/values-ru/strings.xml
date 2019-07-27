@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Компас</string>
-    <string name="app_notSupported_alert">Упс! Похоже ваше устройство не поддерживается, приложение использует датчики которых в вашем устройстве нету.</string>
+    <string name="app_notSupported_alert">Упс!\nПохоже ваше устройство не поддерживается, приложение использует датчики которых в вашем устройстве нету.</string>
     <string name="app_notSupported_close">Закрыть</string>
 </resources>

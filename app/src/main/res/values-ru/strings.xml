@@ -2,5 +2,6 @@
 <resources>
     <string name="app_name">Компас</string>
     <string name="app_notSupported_alert">Упс!\nПохоже ваше устройство не поддерживается, приложение использует датчики которых в вашем устройстве нету.</string>
-    <string name="app_notSupported_close">Закрыть</string>
+    <string name="button_close">Закрыть</string>
+    <string name="app_legacyMode_alert">Упс!\nНа вашем устройстве не обнаруженно нужного нам сенсора.\nТочность будет снижена, но мы будем стараться со всех сил.</string>
 </resources>

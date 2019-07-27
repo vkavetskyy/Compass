@@ -3,6 +3,7 @@
     <string name="app_author" translatable="false">Vladyslav Kavetskyy</string>
     <string name="degree_symbol" translatable="false">°</string>
 
-    <string name="app_notSupported_alert">Sorry!\nLooks like your device isn\'t supported, app requires sensors which your device is missing.</string>
-    <string name="app_notSupported_close">Close</string>
+    <string name="app_legacyMode_alert">Ooops!\nYour device doesn\'t have one needed sensor. Operating in "legacy" mode, accuracy will be lower, but we will try our best.</string>
+    <string name="app_notSupported_alert">Ooops!\nLooks like your device isn\'t supported, app requires sensors which your device is missing.</string>
+    <string name="button_close">Close</string>
 </resources>

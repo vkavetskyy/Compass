@@ -29,8 +29,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
     private Sensor mRotation_Vector;
-    private Sensor mMagnetometer;
+    private Sensor mMagnetic_Field;
     private Sensor mOrientation;
 
     private ImageView imageView_Sensor_Accuracy;
@@ -43,8 +44,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private final float[] orientation_Angles = new float[3];
     private final float[] mLastAccelerometer = new float[3];
     private final float[] mLastMagnetometer = new float[3];
+    private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
-    private float currentDegree = 0f;
+    private float[] currentDegree = new float[3];
+    private static final float ALPHA = 0.1f;
 
     private boolean legacy_mode = false;
 
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textView_Azimuth = findViewById(R.id.textView_Direction);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+        for(int i = 0; i < currentDegree.length; i++)
+            currentDegree[i] = 0f;
+
+        //Not supported
         if(Objects.requireNonNull(mSensorManager).getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) == null)
             noSensorsAlert();
 
@@ -71,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         //Normal mode
         else {
-            mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+            mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            mMagnetic_Field = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
             mRotation_Vector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-            mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+            mSensorManager.registerListener(this, mMagnetic_Field, SensorManager.SENSOR_DELAY_GAME);
             mSensorManager.registerListener(this, mRotation_Vector, SensorManager.SENSOR_DELAY_GAME);
         }
 
@@ -97,13 +106,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Legacy mode (no rotation vector sensor or other)
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
             legacy_mode = true;
-            float degree = Math.round(sensorEvent.values[0]);
-            RotateAnimation rotateAnimation = new RotateAnimation(currentDegree, -degree, Animation.RELATIVE_TO_SELF, 0.50f, Animation.RELATIVE_TO_SELF, 0.50f);
-            rotateAnimation.setDuration(250);
-            rotateAnimation.setFillAfter(false);
-            imageView_Protractor.startAnimation(rotateAnimation);
-            currentDegree = -degree;
-            setText(degree);
+            currentDegree = applyLowPassFilter(sensorEvent.values, currentDegree);
+            imageView_Protractor.setRotation(-currentDegree[0]);
+            setText(Math.round(sensorEvent.values[0]));
         }
 
         //Normal mode
@@ -112,11 +117,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SensorManager.getRotationMatrixFromVector(rotation_Matrix, sensorEvent.values);
                 mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rotation_Matrix, orientation_Angles)[0]) + 360) % 360;
             }
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                System.arraycopy(sensorEvent.values, 0, mLastAccelerometer, 0, sensorEvent.values.length);
+                mLastAccelerometerSet = true;
+            }
             if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 System.arraycopy(sensorEvent.values, 0, mLastMagnetometer, 0, sensorEvent.values.length);
                 mLastMagnetometerSet = true;
             }
-            if (mLastMagnetometerSet) {
+            if (mLastMagnetometerSet && mLastAccelerometerSet) {
                 SensorManager.getRotationMatrix(rotation_Matrix, null, mLastAccelerometer, mLastMagnetometer);
                 SensorManager.getOrientation(rotation_Matrix, orientation_Angles);
                 mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rotation_Matrix, orientation_Angles)[0]) + 360) % 360;
@@ -129,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void setText(float mAzimuth) {
         int coordinates = (int) mAzimuth;
+        if (coordinates == 360) coordinates = 0;
         String Azimuth = "N";
         if (mAzimuth >= 350 || mAzimuth <= 10) Azimuth = "N";
         if (mAzimuth < 350 && mAzimuth > 280) Azimuth = "NW";
@@ -155,6 +165,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 imageView_Sensor_Accuracy.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_sensor_accuracy_good));
                 break;
         }
+    }
+
+
+
+    private float[] applyLowPassFilter(float[] input, float[] output) {
+        if (output == null)
+            return input;
+        for (int i = 0; i < input.length; i++)
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        return output.clone();
     }
 
     private void sensorsAlert() {
@@ -188,8 +208,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             mSensorManager.unregisterListener(this, mOrientation);
         }
         else {
+            mSensorManager.unregisterListener(this, mAccelerometer);
             mSensorManager.unregisterListener(this, mRotation_Vector);
-            mSensorManager.unregisterListener(this, mMagnetometer);
+            mSensorManager.unregisterListener(this, mMagnetic_Field);
         }
     }
 
@@ -200,8 +221,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_GAME);
         }
         else {
+            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
             mSensorManager.registerListener(this, mRotation_Vector, SensorManager.SENSOR_DELAY_GAME);
-            mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+            mSensorManager.registerListener(this, mMagnetic_Field, SensorManager.SENSOR_DELAY_GAME);
         }
     }
 
